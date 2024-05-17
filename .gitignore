@@ -1,0 +1,5 @@
+.env
+# other files or directories to ignore
+node_modules/
+dist/
+
