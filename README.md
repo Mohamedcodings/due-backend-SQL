@@ -1,40 +1,32 @@
 # Due Backend SQL
 
-## Description
-
 Ce projet automatise le processus d'importation de données à partir de fichiers Excel dans une base de données PostgreSQL en utilisant Ruby. Le script lit les données de plusieurs feuilles de calcul dans un fichier Excel et les insère dans les tables correspondantes de la base de données.
 
 ## Prérequis
 
-- Ruby
-- PostgreSQL
-- Bundler (`gem install bundler`)
-- Gems nécessaires : `rubyXL`, `activerecord`, `pg`, `dotenv`
+Ruby
+PostgreSQL
+Bundler (`gem install bundler`)
+Gems nécessaires : `rubyXL`, `activerecord`, `pg`, `dotenv`
 
 ## Installation
 
 1. **Cloner le dépôt :**
 
-   ```sh
-   git clone git@github.com:Mohamedcodings/due-backend-SQL.git
-   cd due-backend-SQL
-   
+```sh
+git clone git@github.com:Mohamedcodings/due-backend-SQL.git
+cd due-backend-SQL
+
+
+
 Installer les dépendances :
-
-sh
-Copy code
 bundle install
+
 Créer un fichier .env pour vos identifiants de base de données :
-
-sh
-Copy code
 touch .env
+
 Ajouter votre mot de passe de base de données dans le fichier .env :
-
-env
-Copy code
 DB_PASSWORD=your_database_password
-
 
 Utilisation
 Assurez-vous que votre serveur PostgreSQL est en cours d'exécution.
@@ -42,9 +34,6 @@ Assurez-vous que votre serveur PostgreSQL est en cours d'exécution.
 Mettez à jour le script import_data.rb si nécessaire (par exemple, les détails de connexion à la base de données).
 
 Exécuter le script :
-
-sh
-Copy code
 ruby import_data.rb
 
 Structure du projet
