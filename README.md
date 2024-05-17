@@ -11,9 +11,9 @@ Gems nécessaires : `rubyXL`, `activerecord`, `pg`, `dotenv`
 
 ## Installation
 
-1. **Cloner le dépôt :**
+Cloner le dépôt
 
-```sh
+sh
 git clone git@github.com:Mohamedcodings/due-backend-SQL.git
 cd due-backend-SQL
 
