@@ -59,6 +59,7 @@ def process_worksheet(worksheet, order_id, order_name, max_package_id, max_item_
   # Trouver ou créer la commande
   order = Order.find_or_create_by!(orderid: order_id, ordername: order_name)
   current_package = nil
+  last_item_index = nil # Track the last item index
 
   # Parcourir chaque ligne de la feuille de calcul
   worksheet.each_with_index do |row, index|
@@ -68,24 +69,25 @@ def process_worksheet(worksheet, order_id, order_name, max_package_id, max_item_
     next if value.nil? || value.empty?
 
     ActiveRecord::Base.transaction do
-      # Traiter les différentes étiquettes
-      case label.downcase
-      when 'name'
+      # Créer un nouvel item à chaque changement de item_index
+      if item_index != last_item_index
         if item_index.to_i == 0
           max_package_id += 1
           current_package = order.packages.create!(packageid: max_package_id)
         end
         max_item_id += 1
-        current_package.items.create!(itemid: max_item_id, name: value, packageid: current_package.packageid) if current_package
-      when 'price', 'ref', 'warranty', 'duration'
-        if current_package && current_package.items.any?
-          attribute = {label.downcase.to_sym => value}
-          current_package.items.last.update!(attribute)
-        else
-          puts "No current item to update for label: #{label} with value: #{value}"
-        end
+        current_package.items.create!(itemid: max_item_id, packageid: current_package.packageid)
+        last_item_index = item_index
+      end
+
+      # Traiter les différentes étiquettes
+      if current_package && current_package.items.any?
+        current_item = current_package.items.last
+        attribute = { label.downcase.to_sym => value }
+        attribute[:warranty] = (value.downcase == 'yes') ? true : false if label.downcase == 'warranty'
+        current_item.update!(attribute)
       else
-        puts "Unrecognized label: #{label}"
+        puts "No current item to update for label: #{label} with value: #{value}"
       end
     end
   end
